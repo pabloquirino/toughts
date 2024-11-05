@@ -2,11 +2,20 @@ import express from 'express'
 import { create } from 'express-handlebars'
 import session from 'express-session'
 import FileStoreModule from 'session-file-store'
+import path from 'path'
+import os from 'os'
 import flash from 'express-flash'
 import conn from './db/conn.js'
 
-const FileStore = FileStoreModule(session)
 const app = express()
+
+const FileStore = FileStoreModule(session) // creates a system that stores session information in files
+
+// works as a “box” where session information will be stored
+const store = new (FileStore(session))({
+    logFn: () => {},
+    path: path.join(os.tmpdir(), 'sessions')
+})
 
 // template engine
 const hbs = create({
@@ -32,10 +41,7 @@ app.use(
         secret: 'our_secret',
         resave: false,
         saveUninitialized: false,
-        store: new FileStore({
-            logFn: function () {},
-            path: require('path').join(require('os').tmpdir(), 'sessions')
-        }),
+        store: store,
         cookie: {
             secure: false,
             maxAge: 360000,
