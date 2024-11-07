@@ -6,32 +6,26 @@ import path from 'path'
 import os from 'os'
 import flash from 'express-flash'
 import conn from './db/conn.js'
+// Models
+import Toughts from './model/Toughts.js'
+import User from './model/User.js'
 
 const app = express()
-
-const FileStore = FileStoreModule(session) // creates a system that stores session information in files
+const FileStore = FileStoreModule(session) 
 
 // works as a “box” where session information will be stored
-const store = new (FileStore(session))({
+const store = new FileStore({
     logFn: () => {},
     path: path.join(os.tmpdir(), 'sessions')
 })
 
 // template engine
-const hbs = create({
-    extname: 'handlebars'
-})
-
+const hbs = create({ extname: 'handlebars' })
 app.engine('handlebars', hbs.engine)
 app.set('view engine', 'handlebars')
 
 // receive responses from the body
-app.use(
-    express.urlencoded({
-        extended: true
-    })
-)
-
+app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
 // session middleware
