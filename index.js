@@ -5,10 +5,15 @@ import FileStoreModule from 'session-file-store'
 import path from 'path'
 import os from 'os'
 import flash from 'express-flash'
+// DB
 import conn from './db/conn.js'
 // Models
 import Toughts from './model/Toughts.js'
 import User from './model/User.js'
+// Route
+import toughtsRoutes from './routes/toughtsRoutes.js'
+// Controller
+import ToughtController from './controllers/ToughtController.js'
 
 const app = express()
 const FileStore = FileStoreModule(session) 
@@ -59,6 +64,11 @@ app.use((req, res, next) => {
 
     next()
 })
+
+// middleware routes
+app.use('/toughts', toughtsRoutes)
+
+app.get('/', ToughtController.showToughts) // main bar points to showToughts 
 
 conn 
     .sync()
