@@ -12,6 +12,7 @@ import Toughts from './model/Toughts.js'
 import User from './model/User.js'
 // Route
 import toughtsRoutes from './routes/toughtsRoutes.js'
+import authRoutes from './routes/authRoutes.js'
 // Controller
 import ToughtController from './controllers/ToughtController.js'
 
@@ -67,6 +68,7 @@ app.use((req, res, next) => {
 
 // middleware routes
 app.use('/toughts', toughtsRoutes)
+app.use('/', authRoutes)
 
 app.get('/', ToughtController.showToughts) // main bar points to showToughts 
 
