@@ -5,6 +5,7 @@ import checkAuth from '../helpers/auht.js'
 
 const router = express.Router()
 
+router.get('/add', checkAuth, ToughtController.createTought)
 router.get('/dashboard', checkAuth, ToughtController.dashboard)
 router.get('/', ToughtController.showToughts)
 

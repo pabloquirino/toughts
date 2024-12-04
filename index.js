@@ -10,7 +10,7 @@ import conn from './db/conn.js'
 // Models
 import Toughts from './model/Toughts.js'
 import User from './model/User.js'
-// Route
+// Routes
 import toughtsRoutes from './routes/toughtsRoutes.js'
 import authRoutes from './routes/authRoutes.js'
 // Controller
