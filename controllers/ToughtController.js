@@ -24,7 +24,13 @@ export default class ToughtController {
         // transform 'tought' data into a simpler format for manipulation
         const toughts = user.Toughts.map((result) => result.dataValues) 
 
-        res.render('toughts/dashboard', { toughts })
+        let emptyToughts = false
+
+        if(toughts.length === 0) {
+            emptyToughts = true
+        }
+
+        res.render('toughts/dashboard', { toughts, emptyToughts })
     }
 
     static createTought(req, res) {
@@ -48,6 +54,24 @@ export default class ToughtController {
             })
         } catch (error) {
             console.log(error)
+        }
+    }
+
+    static async removeTought(req, res) {
+        const id = req.body.id
+        const UserId = req.session.userid
+
+        try {
+
+            await Toughts.destroy( {where: {id: id, UserId: UserId} } )
+
+            req.flash('message','Pensamento removido com sucesso!')
+
+            req.session.save(() => {
+                res.redirect('/toughts/dashboard')
+            })
+        } catch(err) {
+            console.log(err)
         }
     }
 
