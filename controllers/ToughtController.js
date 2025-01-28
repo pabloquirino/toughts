@@ -75,4 +75,16 @@ export default class ToughtController {
         }
     }
 
+    static async updateTought(req, res) {
+        const {id} = req.params
+
+        const tought = await Toughts.findOne({ where: {id: id}, raw: true })
+
+        res.render('toughts/edit', {tought})
+    }
+
+    static async updateToughtSave(req, res) {
+        
+    }
+
 }
